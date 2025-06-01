@@ -11,7 +11,7 @@ Il doit être possible pour un internaute de :
 - rechercher une recette par nom, ingrédient ou type de plat,
 - demander la création d’une nouvelle recette en renseignant :
   - les ingrédients,
-  - le nombre de personnes,
+  - le nombre de personnes, 
   - les intolérances alimentaires.
 
 ## Contraintes
