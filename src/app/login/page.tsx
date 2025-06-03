@@ -9,10 +9,16 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ChefHat, Utensils, Cookie, Coffee, Sparkles, Eye, EyeOff } from 'lucide-react';
+import '../animations.css';
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({
+  interface LoginFormData {
+    email: string;
+    password: string;
+  }
+
+  const [formData, setFormData] = useState<LoginFormData>({
     email: '',
     password: ''
   });
@@ -20,14 +26,14 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const router = useRouter();
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
@@ -103,7 +109,7 @@ export default function LoginPage() {
                 id="email"
                 name="email"
                 type="email"
-                placeholder="chef@exemple.com"
+                placeholder="philippe@aitchebest.fr"
                 value={formData.email}
                 onChange={handleInputChange}
                 required
@@ -162,47 +168,15 @@ export default function LoginPage() {
           </div>
 
           <div className="mt-4 text-center">
-            <button className="text-sm text-gray-500 hover:text-orange-600 transition-colors duration-200">
-              Mot de passe oublié ? Réinitialiser
-            </button>
+            <Link href="/reset-password">
+              <button className="text-sm text-gray-500 hover:text-orange-600 transition-colors duration-200">
+                Mot de passe oublié ? Réinitialiser
+              </button>
+            </Link>
           </div>
         </CardContent>
       </Card>
 
-      <style jsx>{`
-        @keyframes blob {
-          0% { transform: translate(0px, 0px) scale(1); }
-          33% { transform: translate(30px, -50px) scale(1.1); }
-          66% { transform: translate(-20px, 20px) scale(0.9); }
-          100% { transform: translate(0px, 0px) scale(1); }
-        }
-        
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-20px); }
-        }
-        
-        .animate-blob {
-          animation: blob 7s infinite;
-        }
-        
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-        
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-        
-        .animate-float {
-          animation: float 6s ease-in-out infinite;
-        }
-        
-        .animate-float-delayed {
-          animation: float 6s ease-in-out infinite;
-          animation-delay: 2s;
-        }
-      `}</style>
     </div>
   );
 }

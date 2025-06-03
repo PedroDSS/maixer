@@ -8,18 +8,26 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ChefHat, Utensils, Cookie, Coffee, Sparkles, Eye, EyeOff } from 'lucide-react';
+import '../animations.css';
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [formData, setFormData] = useState({
+  interface RegisterFormData {
+    name: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+  }
+
+  const [formData, setFormData] = useState<RegisterFormData>({
     name: '',
     email: '',
     password: '',
     confirmPassword: ''
   });
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
@@ -31,7 +39,7 @@ export default function RegisterPage() {
   const [success, setSuccess] = useState('');
   const router = useRouter();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
     if (formData.password !== formData.confirmPassword) {
@@ -54,7 +62,7 @@ export default function RegisterPage() {
         })
       });
 
-      const data = await response.json();
+      const data = await response.json() as { message?: string; error?: string; user?: any };
 
       if (response.ok) {
         setSuccess('Compte créé avec succès ! Redirection vers la connexion...');
@@ -146,7 +154,7 @@ export default function RegisterPage() {
                 id="email"
                 name="email"
                 type="email"
-                placeholder="chef@exemple.com"
+                placeholder="philippe@aitchebest.fr"
                 value={formData.email}
                 onChange={handleInputChange}
                 required
@@ -231,40 +239,6 @@ export default function RegisterPage() {
         </CardContent>
       </Card>
 
-      <style jsx>{`
-        @keyframes blob {
-          0% { transform: translate(0px, 0px) scale(1); }
-          33% { transform: translate(30px, -50px) scale(1.1); }
-          66% { transform: translate(-20px, 20px) scale(0.9); }
-          100% { transform: translate(0px, 0px) scale(1); }
-        }
-        
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-20px); }
-        }
-        
-        .animate-blob {
-          animation: blob 7s infinite;
-        }
-        
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-        
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-        
-        .animate-float {
-          animation: float 6s ease-in-out infinite;
-        }
-        
-        .animate-float-delayed {
-          animation: float 6s ease-in-out infinite;
-          animation-delay: 2s;
-        }
-      `}</style>
     </div>
   );
 }

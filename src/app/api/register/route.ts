@@ -24,7 +24,6 @@ export async function POST(request: NextRequest): Promise<NextResponse<RegisterR
       Name: name,
       Email: email,
       Password: hashedPassword,
-      CreatedAt: new Date().toISOString(),
     };
 
     const result = await AirtableService.createUser(userData);
