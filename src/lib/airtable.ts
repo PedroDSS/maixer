@@ -217,7 +217,7 @@ export class AirtableService {
         Allergens: JSON.stringify(recipeData.allergens),
         NutritionalInfo: JSON.stringify(recipeData.nutritionalInfo),
         CreatedAt: recipeData.createdAt,
-        UserId: recipeData.userId,
+        UserId: [recipeData.userId],
       };
       
       const records = await recipesTable.create([{ fields }]);
