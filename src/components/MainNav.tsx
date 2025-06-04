@@ -50,26 +50,6 @@ export function MainNav() {
           <NavigationMenuContent>
             <ul className="grid gap-3 p-4 w-[220px] bg-white border-orange-200 shadow-xl rounded-xl">
               <li>
-                <Link href="/recipes" passHref legacyBehavior>
-                  <NavigationMenuLink
-                    className={cn(
-                      'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors',
-                      isActive('/recipes') && !isActive('/recipes/new') && !isActive('/recipes/search') && !isActive('/recipes/all')
-                        ? 'bg-orange-50 text-orange-600' 
-                        : 'hover:bg-orange-50 hover:text-orange-600'
-                    )}
-                  >
-                    <div className="font-medium flex items-center gap-2">
-                      <Book className="h-4 w-4" />
-                      Mes Recettes
-                    </div>
-                    <p className="line-clamp-2 text-sm leading-snug text-gray-500">
-                      Recettes que vous avez générées
-                    </p>
-                  </NavigationMenuLink>
-                </Link>
-              </li>
-              <li>
                 <Link href="/recipes/all" passHref legacyBehavior>
                   <NavigationMenuLink
                     className={cn(
@@ -85,6 +65,26 @@ export function MainNav() {
                     </div>
                     <p className="line-clamp-2 text-sm leading-snug text-gray-500">
                       Recettes générées par la communauté
+                    </p>
+                  </NavigationMenuLink>
+                </Link>
+              </li>
+              <li>
+                <Link href="/recipes" passHref legacyBehavior>
+                  <NavigationMenuLink
+                    className={cn(
+                      'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors',
+                      isActive('/recipes') && !isActive('/recipes/new') && !isActive('/recipes/search') && !isActive('/recipes/all')
+                        ? 'bg-orange-50 text-orange-600' 
+                        : 'hover:bg-orange-50 hover:text-orange-600'
+                    )}
+                  >
+                    <div className="font-medium flex items-center gap-2">
+                      <Book className="h-4 w-4" />
+                      Mes Recettes
+                    </div>
+                    <p className="line-clamp-2 text-sm leading-snug text-gray-500">
+                      Recettes que vous avez générées
                     </p>
                   </NavigationMenuLink>
                 </Link>

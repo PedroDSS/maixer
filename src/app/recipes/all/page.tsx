@@ -3,17 +3,65 @@ import { redirect } from 'next/navigation';
 import { AirtableService } from '@/lib/airtable';
 import { RecipeCard } from '@/components/RecipeCard';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
-import { Plus, Search, ChefHat, Sparkles } from 'lucide-react';
+import { Search, ChefHat, Sparkles, Filter } from 'lucide-react';
 
-export default async function AllRecipesPage() {
+interface AllRecipesPageProps {
+  searchParams: {
+    name?: string;
+    ingredient?: string;
+    dishType?: string;
+  };
+}
+
+export default async function AllRecipesPage({ searchParams }: AllRecipesPageProps) {
   const session = await getServerSession();
   
   if (!session) {
     redirect('/login');
   }
 
-  const recipes = await AirtableService.getAllPublicRecipes();
+  // Extract search params
+  const { name, ingredient, dishType } = searchParams;
+  const isSearching = name || ingredient || dishType;
+  
+  // Get all recipes to extract dish types for filter dropdown
+  const allRecipes = await AirtableService.getAllPublicRecipes();
+  
+  // Extract unique dish types for filter dropdown
+  const dishTypes = Array.from(new Set(allRecipes.map(recipe => recipe.dishType))).filter(Boolean).sort();
+  
+  // Determine which recipes to display
+  let recipes = allRecipes;
+  
+  // If searching, filter the recipes
+  if (isSearching) {
+    // Filter by name if provided
+    if (name) {
+      const nameLower = name.toLowerCase();
+      recipes = recipes.filter(recipe => 
+        recipe.name.toLowerCase().includes(nameLower)
+      );
+    }
+    
+    // Filter by dish type if provided and not the "all" value
+    if (dishType && dishType !== '_all') {
+      recipes = recipes.filter(recipe => recipe.dishType === dishType);
+    }
+    
+    // Filter by ingredient if provided
+    if (ingredient) {
+      const ingredientLower = ingredient.toLowerCase();
+      recipes = recipes.filter((recipe) => 
+        recipe.ingredients.some((ing) => 
+          ing.name.toLowerCase().includes(ingredientLower)
+        )
+      );
+    }
+  }
 
   return (
     <div className="container max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-grow flex flex-col">
@@ -28,7 +76,51 @@ export default async function AllRecipesPage() {
         </div>
       </div>
 
-      {recipes.length === 0 ? (
+      <div className="mb-8">
+        <form className="flex flex-col sm:flex-row gap-2">
+          <div className="relative flex-grow">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <Search className="h-4 w-4 text-gray-400" />
+            </div>
+            <Input
+              id="name"
+              name="name"
+              placeholder="Rechercher par nom ou ingrédient..."
+              defaultValue={name || ingredient}
+              className="pl-9 border-orange-200 focus:border-orange-400 focus:ring-orange-400 h-10"
+            />
+          </div>
+          
+          <div className="w-full sm:w-40">
+            <Select name="dishType" defaultValue={dishType}>
+              <SelectTrigger className="border-orange-200 focus:border-orange-400 focus:ring-orange-400 h-10">
+                <SelectValue placeholder="Type de plat" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="_all">Tous les types</SelectItem>
+                {dishTypes.map((type) => (
+                  type && <SelectItem key={type} value={type}>{type}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          
+          <Button 
+            type="submit" 
+            className="bg-orange-500 hover:bg-orange-600 text-white h-10"
+          >
+            <Search className="h-4 w-4 mr-2" />
+            Rechercher
+          </Button>
+        </form>
+      </div>
+
+      {isSearching && recipes.length === 0 ? (
+        <div className="text-center py-12">
+          <h2 className="text-xl font-semibold mb-2 text-orange-600">Aucune recette trouvée</h2>
+          <p className="text-gray-600">Essayez de modifier vos critères de recherche</p>
+        </div>
+      ) : recipes.length === 0 ? (
         <div className="flex-grow flex items-center justify-center">
           <div className="w-full max-w-lg text-center py-16 backdrop-blur-sm bg-white/90 shadow-lg border-0 ring-1 ring-orange-200 rounded-lg p-8 mx-auto">
             <div className="mx-auto w-16 h-16 bg-gradient-to-br from-orange-400 to-amber-500 rounded-full flex items-center justify-center shadow-lg mb-4">

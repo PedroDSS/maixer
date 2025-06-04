@@ -37,10 +37,24 @@ export function AppHeader() {
               <ul className="flex space-x-2 items-center">
                 <li>
                   <Link 
+                    href="/recipes/all" 
+                    className={cn(
+                      'inline-flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-md transition-colors',
+                      isActive('/recipes/all') 
+                        ? 'text-orange-600 bg-orange-50' 
+                        : 'text-gray-600 hover:text-orange-600 hover:bg-orange-50'
+                    )}
+                  >
+                    <Book className="h-4 w-4" />
+                    <span>Toutes les Recettes</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link 
                     href="/recipes" 
                     className={cn(
                       'inline-flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-md transition-colors',
-                      isActive('/recipes') && !isActive('/recipes/new') && !isActive('/recipes/search') 
+                      isActive('/recipes') && !isActive('/recipes/new') && !isActive('/recipes/search') && !isActive('/recipes/all')
                         ? 'text-orange-600 bg-orange-50' 
                         : 'text-gray-600 hover:text-orange-600 hover:bg-orange-50'
                     )}
@@ -60,21 +74,7 @@ export function AppHeader() {
                     )}
                   >
                     <ChefHat className="h-4 w-4" />
-                    <span>Générer</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link 
-                    href="/recipes/search" 
-                    className={cn(
-                      'inline-flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-md transition-colors',
-                      isActive('/recipes/search') 
-                        ? 'text-orange-600 bg-orange-50' 
-                        : 'text-gray-600 hover:text-orange-600 hover:bg-orange-50'
-                    )}
-                  >
-                    <Search className="h-4 w-4" />
-                    <span>Rechercher</span>
+                    <span>Générer une recette</span>
                   </Link>
                 </li>
               </ul>
@@ -98,6 +98,12 @@ export function AppHeader() {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="border-orange-100 shadow-md w-48">
                     <DropdownMenuItem asChild>
+                      <Link href="/recipes/all" className="text-gray-700 hover:text-orange-600 hover:bg-orange-50 flex items-center">
+                        <Book className="h-4 w-4 mr-2" />
+                        Toutes les Recettes
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
                       <Link href="/recipes" className="text-gray-700 hover:text-orange-600 hover:bg-orange-50 flex items-center">
                         <Book className="h-4 w-4 mr-2" />
                         Mes Recettes
@@ -107,12 +113,6 @@ export function AppHeader() {
                       <Link href="/recipes/new" className="text-gray-700 hover:text-orange-600 hover:bg-orange-50 flex items-center">
                         <ChefHat className="h-4 w-4 mr-2" />
                         Générer une Recette
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <Link href="/recipes/search" className="text-gray-700 hover:text-orange-600 hover:bg-orange-50 flex items-center">
-                        <Search className="h-4 w-4 mr-2" />
-                        Rechercher
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />

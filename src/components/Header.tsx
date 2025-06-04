@@ -45,6 +45,9 @@ export function Header() {
                     <Link href="/" className="text-gray-700 hover:text-orange-600">Accueil</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
+                    <Link href="/recipes/all" className="text-gray-700 hover:text-orange-600">Toutes les recettes</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
                     <Link href="/recipes" className="text-gray-700 hover:text-orange-600">Mes Recettes</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>

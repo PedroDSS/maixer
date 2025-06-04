@@ -12,13 +12,14 @@ export default function RecipesLayout({
 }) {
   const pathname = usePathname();
   
-  // Only apply the gradient background to the main recipes pages
-  const isMainPage = pathname === '/recipes' || pathname === '/recipes/new' || pathname === '/recipes/search';
+  // Apply the gradient background to all recipe pages
+  // Using includes('/recipes') would apply to all pages under recipes
+  const isMainPage = true;
   
   return (
     <div className="flex flex-col min-h-screen">
       <AppHeader />
-      <div className={`flex-1 ${isMainPage ? 'bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50' : 'bg-white'} overflow-x-hidden`}>
+      <div className="flex-1 bg-gradient-to-br from-orange-50 via-white to-amber-50 overflow-x-hidden">
         {isMainPage && (
           <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
             <div className="absolute -top-4 -left-4 w-72 h-72 bg-orange-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
