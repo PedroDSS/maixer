@@ -150,8 +150,8 @@ export class AirtableService {
     try {
       const records = await recipesTable
         .select({
-          filterByFormula: `{UserId} = '${userId}'`,
-          sort: [{ field: 'CreatedAt', direction: 'desc' }],
+          filterByFormula: `{UserIdValue} = '${userId}'`,
+          sort: [{ field: "CreatedAt", direction: "desc" }],
         })
         .all();
 

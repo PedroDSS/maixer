@@ -15,7 +15,7 @@ interface RecipePageProps {
 }
 
 export default async function RecipePage({ params }: RecipePageProps) {
-  const { id } = params;
+  const { id } = await params;
   const session = await getServerSession();
 
   if (!session) {

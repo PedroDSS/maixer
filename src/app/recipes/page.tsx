@@ -37,7 +37,7 @@ export default async function MyRecipesPage({ searchParams }: MyRecipesPageProps
   }
 
   // Extract search params
-  const { name, ingredient, dishType } = searchParams;
+  const { name, ingredient, dishType } = await searchParams;
   const isSearching = name || ingredient || dishType;
   
   // Get all recipes to extract dish types for filter dropdown
