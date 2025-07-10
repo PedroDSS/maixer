@@ -121,15 +121,15 @@ export default function NewRecipePage() {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || "Failed to generate recipe");
+        throw new Error(result.error || "Une erreur s'est produit lors de la génération de la recette.");
       }
 
-      toast.success("Recipe generated successfully!");
+      toast.success("Recette générée avec succès !");
       router.push(`/recipes/${result.recipe.id}`);
     } catch (error) {
       console.error("Error generating recipe:", error);
       toast.error(
-        error instanceof Error ? error.message : "Failed to generate recipe"
+        error instanceof Error ? error.message : "Une erreur s'est produit lors de la génération de la recette."
       );
     } finally {
       setIsGenerating(false);
